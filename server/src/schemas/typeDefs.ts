@@ -1,5 +1,5 @@
-const typeDefs = `
-type User {
+const typeDefs = 
+` type User {
 _id: ID!
 username: String
 email: String
@@ -46,7 +46,6 @@ login(email: String!, password: String!): Auth
 addUser(input: UserInput!): Auth
 saveBook(book: BookInput!): User
 removeBook(bookId: String!): User
-}
-`;
+}`;
 
 export default typeDefs;
