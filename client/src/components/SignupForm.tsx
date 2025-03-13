@@ -33,20 +33,23 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       event.preventDefault();
       event.stopPropagation();
     }
+
     const { savedBooks, ...userInput } = userFormData
     try {
       const { data } = await addUserMutation({
         variables: { input: userInput }
       });
+
       if (data && data.addUser && data.addUser.token) {
         Auth.login(data.addUser.token);
       }else {
-        console.error('Token not found');
+        console.error('Token not found in response data');
       }
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
+    
     setUserFormData({
       username: '',
       email: '',
