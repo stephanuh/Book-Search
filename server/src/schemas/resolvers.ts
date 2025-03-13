@@ -1,8 +1,5 @@
-//import { Query } from 'mongoose';
 import User from '../models/User.js';
 import { signToken, AuthenticationError } from '../services/auth.js';
-//import { saveBook } from '../controllers/user-controller.js';
-//import e from 'express';
 
 interface UserArgs {
     id?: string;
@@ -27,6 +24,7 @@ interface SaveBookArgs {
         bookId: string;
         title: string;
         authors: string[];
+        description: string;
         image: string;
         link: string;
     }
@@ -49,7 +47,7 @@ const resolvers = {
             return foundUser;
         },
 
-        me: async ( _parent: any, _args: any, context: any) => {
+        me: async (_parent: any, _args: any, context: any) => {
             console.log('Running me query!');
 
             if (context.user) {
@@ -60,12 +58,12 @@ const resolvers = {
     },
 
     Mutation: {
-        addUser: async ( _parent: any, { input }: AddUserArgs) => {
-            const user = await User.create({...input, savedBooks: []});
+        addUser: async (_parent: any, { input }: AddUserArgs) => {
+            const user = await User.create({ ...input, savedBooks: [] });
             const token = signToken(user.username, user.email, user._id);
             return { token, user };// return token and user
         },
-        login: async ( _parent: any, { email, password }: LoginUserArgs) => {
+        login: async (_parent: any, { email, password }: LoginUserArgs) => {
             const user = await User.findOne({ email });
 
             if (!user){
@@ -81,8 +79,9 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id);
             return { token, user };
         },
-
-        saveBook: async ( _parent: any, { book }: SaveBookArgs, context: any) => {
+        
+        //save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
+        saveBook: async (_parent: any, { book }: SaveBookArgs, context: any) => {
             if(context.user){
                 return await User.findOneAndUpdate(
                     { _id: context.user._id },
@@ -93,7 +92,9 @@ const resolvers = {
             // User must be logged in to save a book! Throw an authentication error if not.
             throw new AuthenticationError('📚 You need to be logged in to save a book!');
         },
-        removeBook: async ( _parent: any, { bookId }: RemoveBookArgs, context: any) => {
+
+        // remove a book from the `savedBooks`
+        removeBook: async (_parent: any, { bookId }: RemoveBookArgs, context: any) => {
             console.log('context = ', context);
             if(!context.user){
                 throw new AuthenticationError('You need to be logged in to remove a book!');

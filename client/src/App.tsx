@@ -18,6 +18,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = Auth.getToken();
+
   return {
     headers: {
       ...headers,
@@ -34,8 +35,8 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <Navbar/>
-      <Outlet/>
+      <Navbar />
+      <Outlet />
     </ApolloProvider>
   );
 }

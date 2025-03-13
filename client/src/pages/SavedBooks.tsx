@@ -5,8 +5,8 @@ import { removeBookId } from '../utils/localStorage';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
-import type { User } from '../models/User';
-import type { Book } from '../models/Book';
+import type { User } from '../models/User.js';
+import type { Book } from '../models/Book.js';
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
@@ -30,7 +30,7 @@ const SavedBooks = () => {
         data: {
           me: {
             ...existingUser.me,
-            SavedBooks: data.removeBook.savedBooks,
+            savedBooks: data.removeBook.savedBooks,
           },
         },
       });
@@ -76,8 +76,8 @@ if(loading){
           {userData.savedBooks.map((book: Book) => {
             console.log('book.bookId= ', book.bookId);
             return (
-              <Col md='4'>
-                <Card key={book.bookId} border='dark'>
+              <Col key={book.bookId} md='4'>
+                <Card border='dark'>
                   {book.image ? (
                     <Card.Img
                       src={book.image}
