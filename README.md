@@ -3,7 +3,9 @@
 ## 📖Description
 The **React Book Search Engine** is a full-stack MERN(MongoDB, Express, React, Node.js) application that allows users to search for books using the Google Books API. Users can create an account, save books to their personal library, and manage their reading list.
 
-[Click here](render here) to view the application!
+[Click here](https://book-collections.onrender.com) to view the application!
+
+(NOTE: It will take a while for the app to load when opening it ☕)
 ## Table of Contents
 
 - [Installation](#installation)
@@ -36,10 +38,6 @@ JWT_SECRET_KEY=''
 It should be presented like the picture below:
 
 ![BookCollections](images/Book-Collections.PNG)
-
-    
-## Credit
-
 
 
 ## 📜License
